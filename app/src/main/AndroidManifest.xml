@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+      Permission set is deliberately minimal for Google Play review:
+        INTERNET / ACCESS_NETWORK_STATE  - fetch the file the user pasted.
+        READ_MEDIA_VIDEO (33+)           - list the user's saved videos in the Library tab.
+        READ_EXTERNAL_STORAGE (<=32)     - same, on older releases.
+
+      Deliberately NOT declared:
+        WRITE_EXTERNAL_STORAGE     - not needed; files are written via MediaStore.
+        MANAGE_EXTERNAL_STORAGE    - "All files access" is a restricted permission and would
+                                     require a Play declaration this app does not qualify for.
+        QUERY_ALL_PACKAGES         - the system chooser resolves external players for us.
+    -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AllVideoDownloader"
+        tools:targetApi="31">
+
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|uiMode"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- Lets the user share a link from a browser straight into the app. -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+
+        <!--
+          DownloadManager sends ACTION_DOWNLOAD_COMPLETE targeted at our package, so a
+          manifest receiver is allowed here and is exempt from implicit-broadcast limits.
+        -->
+        <receiver
+            android:name=".receiver.DownloadCompleteReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

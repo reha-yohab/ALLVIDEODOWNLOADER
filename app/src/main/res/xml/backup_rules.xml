@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- In-flight download IDs are meaningless on a restored device. -->
+    <exclude domain="sharedpref" path="active_downloads.xml" />
+</full-backup-content>

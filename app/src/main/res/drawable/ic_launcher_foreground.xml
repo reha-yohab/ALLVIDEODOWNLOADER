@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- screen outline -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#7AF0D2"
+        android:strokeWidth="3.5"
+        android:pathData="M32,26h44a5,5 0 0 1 5,5v18a5,5 0 0 1 -5,5h-44a5,5 0 0 1 -5,-5v-18a5,5 0 0 1 5,-5z" />
+
+    <!-- play glyph inside the screen -->
+    <path
+        android:fillColor="#7AF0D2"
+        android:pathData="M50,32l14,8l-14,8z" />
+
+    <!-- download arrow -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M50,60h8v8h-8z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M42,66h24l-12,14z" />
+
+    <!-- tray -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M32,84h44a2,2 0 0 1 2,2v2a2,2 0 0 1 -2,2h-44a2,2 0 0 1 -2,-2v-2a2,2 0 0 1 2,-2z" />
+</vector>

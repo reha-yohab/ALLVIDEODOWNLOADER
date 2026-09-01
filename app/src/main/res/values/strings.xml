@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">All Video Downloader</string>
+
+    <!-- Tabs -->
+    <string name="tab_download">Download</string>
+    <string name="tab_library">Library</string>
+
+    <!-- Download screen -->
+    <string name="paste_link_title">Paste a video link</string>
+    <string name="link_field_label">Video URL</string>
+    <string name="link_field_placeholder">https://example.com/clip.mp4</string>
+    <string name="action_paste">Paste</string>
+    <string name="action_clear">Clear</string>
+    <string name="action_search_download">Search &amp; Download</string>
+    <string name="checking_link">Checking link…</string>
+    <string name="supported_links_hint">Direct video file links only (mp4, mkv, webm, mov…). Streaming sites such as YouTube are not supported.</string>
+    <string name="active_downloads">Downloads in progress</string>
+    <string name="no_active_downloads">No downloads running.</string>
+    <string name="action_cancel_download">Cancel download</string>
+    <string name="clipboard_empty">Clipboard has no link.</string>
+    <string name="download_started">Download started</string>
+    <!-- %1$s = file name, %2$s = folder name -->
+    <string name="saved_to_folder">Saved %1$s to Movies/%2$s</string>
+
+    <!-- Library screen -->
+    <string name="library_title">Saved videos</string>
+    <string name="library_empty_title">No videos yet</string>
+    <string name="library_empty_body">Videos you download are saved to Movies/AllVideoDownloader and appear here.</string>
+    <string name="action_play">Play</string>
+    <string name="action_share">Share</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="open_with">Open video with</string>
+    <string name="share_video">Share video</string>
+    <string name="no_player_installed">No video player app found. Install a video player to watch this file.</string>
+    <string name="delete_confirm_title">Delete video?</string>
+    <string name="delete_confirm_body">%1$s will be permanently removed from your device.</string>
+    <string name="video_deleted">Video deleted.</string>
+
+    <!-- Permission rationale -->
+    <string name="permission_title">Show your saved videos</string>
+    <string name="permission_body">Allow access to videos on this device so the Library tab can list everything you have downloaded, including files from a previous install.</string>
+    <string name="permission_allow">Allow</string>
+    <string name="permission_skip">Not now</string>
+
+    <!-- Disclaimer -->
+    <string name="disclaimer_title">Before you download</string>
+    <string name="disclaimer_body">This app downloads files from direct links that you provide. Only download content you created, own, or have permission to save. Do not use it to copy content protected by copyright or to download from services whose terms forbid it. You are responsible for the links you paste.</string>
+    <string name="disclaimer_agree">I understand</string>
+
+    <!-- Errors -->
+    <string name="error_empty_link">Paste a video link first.</string>
+    <string name="error_malformed_link">That does not look like a valid web link.</string>
+    <string name="error_scheme">Only http and https links are supported.</string>
+    <string name="error_blocked_host">This app cannot download from %1$s. Downloading from that service is not permitted by its terms of use.</string>
+    <string name="error_playlist">Streaming playlists (.m3u8 / .mpd) are not supported. Use a direct video file link.</string>
+    <string name="error_not_video">That link does not point to a video file%1$s.</string>
+    <string name="error_download_anyway">Download anyway</string>
+    <string name="error_unreachable">Could not reach that link: %1$s</string>
+    <string name="error_no_external_storage">External storage is unavailable, so the download cannot start.</string>
+    <string name="error_save_failed">Could not save the finished download: %1$s</string>
+</resources>
