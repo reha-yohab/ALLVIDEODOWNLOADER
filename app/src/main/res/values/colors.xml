@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ic_launcher_background">#1B1B3A</color>
+    <!-- Matches LightScheme.background in Theme.kt so cold start does not flash a
+         different colour than the UI that replaces it. -->
+    <color name="window_background">#F6FBF8</color>
 </resources>

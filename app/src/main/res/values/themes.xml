@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.AllVideoDownloader" parent="@android:style/Theme.DeviceDefault.DayNight.NoActionBar">
+    <!--
+      Parent is Theme.DeviceDefault.NoActionBar, not Theme.DeviceDefault.DayNight.NoActionBar.
+      The framework has Theme.DeviceDefault.DayNight but no NoActionBar variant of it - that
+      combination only exists in AppCompat - and referencing it fails resource linking with
+      "resource android:style/Theme.DeviceDefault.DayNight.NoActionBar not found".
+
+      Losing DayNight costs nothing here. Compose draws every pixel of the UI and picks its own
+      light or dark scheme in AllVideoDownloaderTheme, so the only thing the platform theme
+      contributes is the window background painted during cold start. That is set explicitly
+      below and overridden in values-night, which gets the same result without the dependency.
+    -->
+    <style name="Theme.AllVideoDownloader" parent="@android:style/Theme.DeviceDefault.NoActionBar">
+        <item name="android:windowBackground">@color/window_background</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>

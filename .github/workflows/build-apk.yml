@@ -60,8 +60,20 @@ jobs:
             echo "$HOME/gradle-dist/gradle-8.9/bin" >> "$GITHUB_PATH"
           fi
 
+      # Tee'd to a file so a failure can be handed over whole, rather than pieced together
+      # from a scrolled web view. pipefail keeps the step's exit code honest.
       - name: Build the debug APK
-        run: gradle :app:assembleDebug --no-daemon --stacktrace
+        run: |
+          set -o pipefail
+          gradle :app:assembleDebug --no-daemon --stacktrace 2>&1 | tee build.log
+
+      - name: Upload the full build log if the build failed
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build.log
+          if-no-files-found: warn
 
       - name: Collect the APK
         run: |
