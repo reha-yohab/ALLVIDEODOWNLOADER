@@ -4,8 +4,12 @@ This is the route to take if you don't want an IDE, a JDK, the Android SDK, or G
 machine. A free GitHub account builds the app for you on their machines and hands you back an
 `.apk` file you can download straight onto your phone.
 
-Everything below happens in a web browser plus your file manager. Nothing gets installed on your
-computer. Expect about ten minutes of clicking and five minutes of waiting for the first build.
+Everything below happens in a web browser plus a couple of terminal commands. Nothing Android-related
+gets installed on your computer — no JDK, no SDK, no Gradle, no IDE. Expect about ten minutes of
+setup and five minutes of waiting for the first build.
+
+The only local tool involved is git, which most Linux installs already have. There's a
+browser-only path in step 3 if you'd rather skip even that.
 
 The project already contains the piece that makes this work: `.github/workflows/build-apk.yml`.
 That file tells GitHub which Java version, which Android SDK, and which Gradle version to use, and
@@ -29,28 +33,71 @@ on your computer and transfer it to the phone instead.
 
 Click **Create repository**.
 
-## 3. Upload the project
+## 3. Push the project
 
-On the empty repository page, click the **uploading an existing file** link (or go to
-`https://github.com/YOUR-NAME/all-video-downloader/upload/main`).
+The repository is already prepared: the folder is a git repo, on a branch called `main`, with all
+45 files committed in one commit. Nothing is left to stage. Two commands send it to GitHub —
+substitute your own username and repository name:
 
-Open your file manager at `/home/nawshad/Desktop/APP/AllVideoDownloader`, select everything
-*inside* that folder, and drag it onto the upload area.
+```bash
+cd /home/nawshad/Desktop/APP/AllVideoDownloader
+git remote add origin https://github.com/YOUR-NAME/all-video-downloader.git
+git push -u origin main
+```
 
-Two things to get right here:
+If `git --version` says the command isn't found, install it with `sudo apt install git`. That's a
+few megabytes rather than the several gigabytes an IDE would cost.
 
-**Upload the contents, not the folder.** `settings.gradle.kts` needs to end up at the top level of
-the repository. If you drag the `AllVideoDownloader` folder itself, everything lands one level too
-deep and the build won't find the project.
+### Authenticating the push
 
-**Watch out for the hidden `.github` folder.** On Linux, folders starting with a dot are hidden, so
-your file manager may not show it and some browsers skip it during a folder upload. Press
-`Ctrl+H` in your file manager first to reveal it. After the upload finishes, check the repository
-file list for a `.github` entry. If it isn't there, add the file by hand: click **Add file → Create
-new file**, type `.github/workflows/build-apk.yml` as the filename (typing the slashes creates the
-folders), then paste in the contents of that same file from your local copy and commit it.
+GitHub stopped accepting account passwords over HTTPS, so `git push` needs a token in place of one.
+Go to <https://github.com/settings/tokens>, choose **Tokens (classic) → Generate new token**, and
+tick **two** scopes:
 
-Scroll down, type anything as the commit message, and click **Commit changes**.
+* `repo` — to push the code at all.
+* `workflow` — **easy to miss, and the push fails without it.** GitHub specifically refuses any push
+  that creates or edits a file under `.github/workflows/`, which is exactly what this project does.
+  The error reads `refusing to allow a Personal Access Token to create or update workflow`.
+
+Copy the token immediately; GitHub won't show it again. When `git push` prompts you, give your
+GitHub username and paste the token as the password. To avoid pasting it on every push:
+
+```bash
+git config --global credential.helper store
+```
+
+That writes the token in plain text to `~/.git-credentials`, which is fine for a personal machine
+and less so on a shared one.
+
+SSH keys are the other option and have no equivalent scope trap — `ssh-keygen -t ed25519`, paste
+`~/.ssh/id_ed25519.pub` into <https://github.com/settings/keys>, then use the `git@github.com:...`
+remote URL instead of the `https://` one.
+
+### About the commit author
+
+The commit is authored as `nawshad <nawshad@users.noreply.github.com>`, set only inside this
+repository so nothing on your machine's global git config was touched. GitHub will show the commit
+but won't link it to your profile, because that email isn't registered to your account. If you care
+about the attribution, fix it before pushing:
+
+```bash
+git config user.email "the-email-on-your-github-account"
+git commit --amend --reset-author --no-edit
+```
+
+### Or upload in the browser instead
+
+If you'd rather not deal with git at all, the empty repository page has an **uploading an existing
+file** link. Select everything *inside* the `AllVideoDownloader` folder — not the folder itself, or
+`settings.gradle.kts` ends up one level too deep and the build won't find the project — and drag it
+onto the upload area.
+
+The catch with this route is the hidden `.github` folder. Dot-folders are hidden on Linux, so your
+file manager may not show it and some browsers skip it during a folder upload. Press `Ctrl+H` first
+to reveal it, and afterwards check the repository listing for a `.github` entry. If it's missing,
+click **Add file → Create new file**, type `.github/workflows/build-apk.yml` as the filename (the
+slashes create the folders), and paste in the contents of your local copy. Without that file
+nothing builds.
 
 ## 4. Watch it build
 
@@ -124,8 +171,15 @@ The good news is that the failure is easy to read. In the Actions tab, open the 
 the red step, and expand it. Kotlin errors look like
 `e: file:///.../LibraryScreen.kt:42:17 unresolved reference: foo`.
 
-Copy the red lines and paste them to me and I'll fix the source. Then re-upload just the changed
-file through the GitHub web editor and the build reruns by itself.
+Copy the red lines and paste them to me and I'll fix the source. Then commit and push again and the
+build reruns by itself:
+
+```bash
+git add -A && git commit -m "fix build error" && git push
+```
+
+If you took the browser route instead, edit the file through GitHub's web editor and committing
+there triggers the same rerun.
 
 Two failures that are about the setup rather than the code:
 
